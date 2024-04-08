@@ -176,7 +176,14 @@ while True:
         titleRect = title.get_rect()
         titleRect.center = ((width / 2), 30)
         screen.blit(title, titleRect)
-
+        restartIcon = pygame.image.load('icon/reload-ico-2.png')
+        restartIcon = restartIcon.convert_alpha()
+        restartIcon = pygame.transform.scale(restartIcon, (40, 40)) 
+        restartButton = pygame.Rect(20, 20, 40, 40)
+        restart = mediumFont.render("Restart Game", True, black)
+        restartRect = restart.get_rect()
+        restartRect.center = restartButton.center
+        screen.blit(restartIcon, restartButton)
         if user != player and not game_over:
             if ai_turn:
                 time.sleep(0.5)
@@ -193,7 +200,14 @@ while True:
                 for j in range(3):
                     if (board[i][j] == ttt.EMPTY and tiles[i][j].collidepoint(mouse)):
                         board = ttt.result(board, (i, j))
-
+        if click == 1:
+            mouse = pygame.mouse.get_pos()
+            if restartButton.collidepoint(mouse):
+                time.sleep(0.2)
+                user = None
+                board = ttt.initial_state()
+                ai_turn = False
+                result_written = False
         if game_over:
             againButton = pygame.Rect(width / 3, height - 65, width / 3, 50)
             again = mediumFont.render("Play Again", True, black)
